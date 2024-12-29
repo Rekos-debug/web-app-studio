@@ -10,7 +10,6 @@ body {
     align-items: center;
     height: 100vh;
     text-align: center;
-    overflow: hidden; /* Evita scroll per l'intera pagina */
 }
 
 #app {
@@ -22,10 +21,9 @@ body {
     width: 100%;
     position: relative;
     max-height: 90vh; /* Limita l'altezza dell'app */
-    overflow: hidden; /* Nasconde overflow non necessario */
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 
 /* Scritta di benvenuto */
@@ -36,7 +34,7 @@ body {
     margin-bottom: 20px;
 }
 
-/* Sezione per aggiungere argomenti */
+/* Sezione per aggiungere materia e argomenti */
 #add-section {
     opacity: 0;
     max-height: 0;
@@ -49,18 +47,18 @@ body {
     max-height: 400px;
 }
 
-/* Contenitore per gli argomenti */
+/* Lista argomenti con scrolling */
 #argomenti-list {
     list-style: none;
     padding: 0;
     margin: 20px 0 0;
     text-align: left;
     max-height: 200px; /* Limita l'altezza della lista */
-    overflow-y: auto; /* Abilita lo scrolling verticale */
+    overflow-y: auto;
     border: 1px solid #ddd;
     border-radius: 4px;
     background-color: #f9f9f9;
-    scroll-behavior: smooth; /* Scrolling fluido */
+    scroll-behavior: smooth;
 }
 
 #argomenti-list li {
@@ -145,7 +143,7 @@ body {
     color: #4CAF50;
 }
 
-/* Tooltip per il tasto "+" */
+/* Tooltip */
 #tooltip {
     display: none;
     position: absolute;
@@ -156,7 +154,6 @@ body {
     padding: 5px 10px;
     font-size: 12px;
     border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 #add-button-container:hover #tooltip {
