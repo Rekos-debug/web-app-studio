@@ -19,41 +19,53 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     max-width: 400px;
     width: 100%;
+    position: relative;
 }
 
-/* Scritta di benvenuto */
-#welcome-message {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    animation: fadeInDown 1s ease-out;
-}
-
-/* Tasto "+" */
-#add-button {
-    position: fixed;
-    bottom: 20px;
+/* Tasto "+" con Tooltip */
+#add-button-container {
+    position: absolute;
+    top: 20px;
     right: 20px;
+}
+
+#add-button {
     background-color: #4CAF50;
     color: white;
-    font-size: 30px;
-    width: 60px;
-    height: 60px;
+    font-size: 24px;
+    width: 50px;
+    height: 50px;
     border: none;
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
+    outline: none;
 }
 
 #add-button:hover {
     transform: scale(1.1);
-    background-color: #388E3C;
+}
+
+#tooltip {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    background-color: black;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+#add-button-container:hover #tooltip {
+    display: block;
 }
 
 /* Sezione di aggiunta argomenti */
 #add-section {
-    margin: 20px 0;
+    margin-top: 20px;
 }
 
 #new-argomento {
@@ -74,59 +86,29 @@ body {
     cursor: pointer;
 }
 
-#confirm-add:hover {
-    background-color: #0056b3;
+#argomenti-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    text-align: left;
 }
 
-/* Tasto "Sorteggia!" */
-#sorteggia-button {
-    padding: 15px 30px;
-    font-size: 18px;
+#argomenti-list li {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #f4f4f4;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#argomenti-list button {
     background-color: #ff6f61;
     color: white;
     border: none;
+    padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-#sorteggia-button:hover {
-    background-color: #e55042;
-}
-
-/* Risultato del sorteggio */
-#result {
-    font-size: 22px;
-    margin-top: 30px;
-    font-weight: bold;
-    color: #4CAF50;
-    animation: fadeIn 0.5s ease-out;
-}
-
-/* Classi di supporto */
-.hidden {
-    display: none;
-}
-
-/* Animazioni */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    font-size: 14px;
 }
