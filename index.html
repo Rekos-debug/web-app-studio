@@ -22,13 +22,15 @@
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyCgER4IT8ypsTWBQAfpcOQtakrMUn4fzqo",
-            authDomain: "database-argomenti-studio.firebaseapp.com",
-            projectId: "database-argomenti-studio",
-            storageBucket: "database-argomenti-studio.firebasestorage.app",
-            messagingSenderId: "693225744695",
-            appId: "1:693225744695:web:9aef511c10b20afad852b2"
-        };
+  apiKey: "AIzaSyCgER4IT8ypsTWBQAfpcOQtakrMUn4fzqo",
+  authDomain: "database-argomenti-studio.firebaseapp.com",
+  databaseURL: "https://database-argomenti-studio-default-rtdb.firebaseio.com", // URL CORRETTO
+  projectId: "database-argomenti-studio",
+  storageBucket: "database-argomenti-studio.firebasestorage.app",
+  messagingSenderId: "693225744695",
+  appId: "1:693225744695:web:9aef511c10b20afad852b2"
+};
+
 
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
