@@ -20,7 +20,7 @@ body {
     max-width: 600px;
     width: 100%;
     position: relative;
-    max-height: 90vh; /* Limita l'altezza dell'app */
+    max-height: 90vh;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -32,6 +32,57 @@ body {
     font-weight: bold;
     color: #4CAF50;
     margin-bottom: 20px;
+}
+
+/* Stile del tasto "+" */
+#add-button-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+#add-button {
+    width: 60px;
+    height: 60px;
+    background-color: #007bff;
+    color: white;
+    font-size: 30px;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#add-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+#add-button:active {
+    transform: scale(1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Tooltip per il tasto "+" */
+#tooltip {
+    display: none;
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#add-button-container:hover #tooltip {
+    display: block;
 }
 
 /* Sezione per aggiungere materia e argomenti */
@@ -53,7 +104,7 @@ body {
     padding: 0;
     margin: 20px 0 0;
     text-align: left;
-    max-height: 200px; /* Limita l'altezza della lista */
+    max-height: 200px;
     overflow-y: auto;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -141,21 +192,4 @@ body {
     font-size: 20px;
     font-weight: bold;
     color: #4CAF50;
-}
-
-/* Tooltip */
-#tooltip {
-    display: none;
-    position: absolute;
-    top: -30px;
-    right: 0;
-    background-color: #333;
-    color: white;
-    padding: 5px 10px;
-    font-size: 12px;
-    border-radius: 4px;
-}
-
-#add-button-container:hover #tooltip {
-    display: block;
 }
