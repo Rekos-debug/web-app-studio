@@ -18,11 +18,27 @@ const database = getDatabase(app);
 // Elementi della pagina
 const addButton = document.getElementById('add-button');
 const addSection = document.getElementById('add-section');
+const tooltip = document.getElementById('tooltip');
 const newArgomentoInput = document.getElementById('new-argomento');
 const confirmAddButton = document.getElementById('confirm-add');
 const argomentiList = document.getElementById('argomenti-list');
 const sorteggiaButton = document.getElementById('sorteggia-button');
 const result = document.getElementById('result');
+
+// Mostra/nasconde la sezione di aggiunta
+addButton.addEventListener('click', () => {
+    addSection.classList.toggle('hidden');
+});
+
+// Mostra il tooltip quando il cursore passa sopra il tasto
+addButton.addEventListener('mouseenter', () => {
+    tooltip.classList.remove('hidden');
+});
+
+// Nasconde il tooltip quando il cursore lascia il tasto
+addButton.addEventListener('mouseleave', () => {
+    tooltip.classList.add('hidden');
+});
 
 // Carica argomenti dal database
 function caricaArgomenti() {
