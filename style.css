@@ -10,7 +10,7 @@ body {
     align-items: center;
     height: 100vh;
     text-align: center;
-    overflow: hidden; /* Rimuovi se vuoi che il corpo della pagina possa scorrere */
+    overflow: hidden; /* Evita scroll per l'intera pagina */
 }
 
 #app {
@@ -22,7 +22,7 @@ body {
     width: 100%;
     position: relative;
     max-height: 90vh; /* Limita l'altezza dell'app */
-    overflow: hidden; /* Nascondi overflow */
+    overflow: hidden; /* Nasconde overflow non necessario */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -56,10 +56,11 @@ body {
     margin: 20px 0 0;
     text-align: left;
     max-height: 200px; /* Limita l'altezza della lista */
-    overflow-y: auto; /* Aggiungi lo scrolling verticale */
+    overflow-y: auto; /* Abilita lo scrolling verticale */
     border: 1px solid #ddd;
     border-radius: 4px;
     background-color: #f9f9f9;
+    scroll-behavior: smooth; /* Scrolling fluido */
 }
 
 #argomenti-list li {
