@@ -12,8 +12,8 @@
 
         <!-- Tasto "+" con Tooltip -->
         <div id="add-button-container">
-            <button id="add-button" title="Aggiungi Argomento">+</button>
-            <span id="tooltip">Aggiungi argomento</span>
+            <button id="add-button">+</button>
+            <span id="tooltip" class="hidden">Aggiungi argomento</span>
         </div>
 
         <!-- Sezione per aggiungere e visualizzare gli argomenti -->
@@ -30,7 +30,6 @@
         <h2 id="result" class="hidden"></h2>
     </div>
 
-    <!-- Firebase e Script -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
         import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
@@ -52,17 +51,27 @@
         // Elementi della pagina
         const addButton = document.getElementById('add-button');
         const addSection = document.getElementById('add-section');
+        const tooltip = document.getElementById('tooltip');
         const newArgomentoInput = document.getElementById('new-argomento');
         const confirmAddButton = document.getElementById('confirm-add');
         const argomentiList = document.getElementById('argomenti-list');
         const sorteggiaButton = document.getElementById('sorteggia-button');
         const result = document.getElementById('result');
 
-        // Animazione della scritta
-        window.onload = () => {
-            const welcomeMessage = document.getElementById('welcome-message');
-            welcomeMessage.classList.remove('hidden');
-        };
+        // Mostra/nasconde la sezione di aggiunta
+        addButton.addEventListener('click', () => {
+            addSection.classList.toggle('hidden');
+        });
+
+        // Mostra il tooltip quando il cursore passa sopra il tasto
+        addButton.addEventListener('mouseenter', () => {
+            tooltip.classList.remove('hidden');
+        });
+
+        // Nasconde il tooltip quando il cursore lascia il tasto
+        addButton.addEventListener('mouseleave', () => {
+            tooltip.classList.add('hidden');
+        });
 
         // Carica argomenti dal database
         function caricaArgomenti() {
