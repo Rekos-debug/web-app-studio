@@ -20,6 +20,7 @@ const addButton = document.getElementById('add-button');
 const addSection = document.getElementById('add-section');
 const tooltip = document.getElementById('tooltip');
 const newArgomentoInput = document.getElementById('new-argomento');
+const newPesoInput = document.getElementById('new-peso');
 const confirmAddButton = document.getElementById('confirm-add');
 const argomentiList = document.getElementById('argomenti-list');
 const sorteggiaButton = document.getElementById('sorteggia-button');
@@ -31,19 +32,9 @@ window.addEventListener('load', () => {
     welcomeMessage.classList.remove('hidden');
 });
 
-// Mostra/nasconde la sezione di aggiunta e l'elenco
+// Mostra/nasconde la sezione di aggiunta
 addButton.addEventListener('click', () => {
     addSection.classList.toggle('hidden');
-});
-
-// Mostra il tooltip quando il cursore passa sopra il tasto
-addButton.addEventListener('mouseenter', () => {
-    tooltip.classList.remove('hidden');
-});
-
-// Nasconde il tooltip quando il cursore lascia il tasto
-addButton.addEventListener('mouseleave', () => {
-    tooltip.classList.add('hidden');
 });
 
 // Carica argomenti dal database
@@ -59,14 +50,23 @@ function caricaArgomenti() {
 // Aggiorna la lista degli argomenti
 function aggiornaListaArgomenti(argomenti) {
     argomentiList.innerHTML = '';
-    argomenti.forEach((argomento, index) => {
+    argomenti.forEach((item, index) => {
         const li = document.createElement('li');
-        li.textContent = argomento;
+        li.className = 'argomento-item';
+        li.textContent = item.testo;
 
+        // Input per il peso
+        const pesoInput = document.createElement('input');
+        pesoInput.type = 'number';
+        pesoInput.value = item.peso;
+        pesoInput.addEventListener('change', () => aggiornaPeso(index, pesoInput.value));
+
+        // Pulsante Rimuovi
         const rimuoviButton = document.createElement('button');
         rimuoviButton.textContent = 'Rimuovi';
         rimuoviButton.onclick = () => rimuoviArgomento(index);
 
+        li.appendChild(pesoInput);
         li.appendChild(rimuoviButton);
         argomentiList.appendChild(li);
     });
@@ -75,14 +75,16 @@ function aggiornaListaArgomenti(argomenti) {
 // Aggiungi nuovo argomento
 confirmAddButton.addEventListener('click', () => {
     const nuovoArgomento = newArgomentoInput.value.trim();
+    const peso = parseInt(newPesoInput.value.trim()) || 1; // Default peso: 1
     if (nuovoArgomento) {
         const dbRef = ref(database, "argomenti");
         get(dbRef).then((snapshot) => {
             const argomenti = snapshot.exists() ? snapshot.val() : [];
-            argomenti.push(nuovoArgomento);
+            argomenti.push({ testo: nuovoArgomento, peso });
             set(dbRef, argomenti).then(() => {
                 aggiornaListaArgomenti(argomenti);
                 newArgomentoInput.value = '';
+                newPesoInput.value = '';
             });
         });
     }
@@ -98,13 +100,29 @@ function rimuoviArgomento(index) {
     });
 }
 
-// Sorteggia un argomento
+// Aggiorna il peso
+function aggiornaPeso(index, peso) {
+    const dbRef = ref(database, "argomenti");
+    get(dbRef).then((snapshot) => {
+        const argomenti = snapshot.val();
+        argomenti[index].peso = parseInt(peso) || 1; // Default peso: 1
+        set(dbRef, argomenti);
+    });
+}
+
+// Sorteggia un argomento ponderato
 sorteggiaButton.addEventListener('click', () => {
     const dbRef = ref(database, "argomenti");
     get(dbRef).then((snapshot) => {
         if (snapshot.exists()) {
             const argomenti = snapshot.val();
-            const casuale = argomenti[Math.floor(Math.random() * argomenti.length)];
+            const ponderato = [];
+            argomenti.forEach((item) => {
+                for (let i = 0; i < item.peso; i++) {
+                    ponderato.push(item.testo);
+                }
+            });
+            const casuale = ponderato[Math.floor(Math.random() * ponderato.length)];
             result.textContent = `Argomento: ${casuale}`;
             result.classList.remove('hidden');
         } else {
