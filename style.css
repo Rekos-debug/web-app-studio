@@ -33,6 +33,7 @@ body {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
+    width: 100%;
 }
 
 #welcome-message {
@@ -43,8 +44,9 @@ body {
 
 /* Stile del tasto "+" */
 #add-button-container {
-    position: relative;
-    margin-right: 10px;
+    position: absolute;
+    top: 20px;
+    right: 30px; /* Posizionato a destra rispetto alla scritta */
 }
 
 #add-button {
@@ -99,6 +101,7 @@ body {
     max-height: 0;
     overflow: hidden;
     transition: opacity 0.3s ease, max-height 0.3s ease;
+    width: 100%;
 }
 
 #add-section:not(.hidden) {
@@ -118,6 +121,7 @@ body {
     border-radius: 4px;
     background-color: #f9f9f9;
     scroll-behavior: smooth;
+    width: 100%;
 }
 
 #argomenti-list li {
