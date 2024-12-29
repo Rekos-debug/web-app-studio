@@ -22,11 +22,14 @@ const materieSelect = document.getElementById('materie-select');
 const newArgomentoInput = document.getElementById('new-argomento');
 const confirmAddButton = document.getElementById('confirm-add');
 const argomentiList = document.getElementById('argomenti-list');
+const paginationContainer = document.getElementById('pagination');
 const sorteggiaButton = document.getElementById('sorteggia-button');
 const materiaResult = document.getElementById('materia-result');
 const result = document.getElementById('result');
 
 let materie = {};
+let currentPage = 1;
+const itemsPerPage = 5; // Numero massimo di elementi per pagina
 
 // Mostra/nasconde la sezione aggiungi
 addButton.addEventListener('click', () => {
@@ -66,33 +69,62 @@ addMateriaButton.addEventListener('click', () => {
 
 materieSelect.addEventListener('change', () => {
     const materiaSelezionata = materieSelect.value;
+    currentPage = 1; // Resetta alla prima pagina
     if (materiaSelezionata) {
         aggiornaListaArgomenti(materie[materiaSelezionata]);
     } else {
         argomentiList.innerHTML = '';
+        paginationContainer.innerHTML = '';
     }
 });
 
 function aggiornaListaArgomenti(argomenti) {
     argomentiList.innerHTML = '';
-    argomenti.forEach((item, index) => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedArgomenti = argomenti.slice(startIndex, endIndex);
+
+    paginatedArgomenti.forEach((item, index) => {
         const li = document.createElement('li');
         li.textContent = item;
 
         const rimuoviButton = document.createElement('button');
         rimuoviButton.textContent = 'Rimuovi';
-        rimuoviButton.onclick = () => rimuoviArgomento(index);
+        rimuoviButton.onclick = () => rimuoviArgomento(startIndex + index);
 
         li.appendChild(rimuoviButton);
         argomentiList.appendChild(li);
     });
 
-    // Forza lo scroll verso il basso
-    scrollToBottom(argomentiList);
+    aggiornaPaginazione(argomenti.length);
 }
 
-function scrollToBottom(container) {
-    container.scrollTop = container.scrollHeight;
+function aggiornaPaginazione(totalItems) {
+    paginationContainer.innerHTML = '';
+
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    if (totalPages > 1) {
+        if (currentPage > 1) {
+            const prevButton = document.createElement('button');
+            prevButton.textContent = 'Precedente';
+            prevButton.onclick = () => {
+                currentPage--;
+                aggiornaListaArgomenti(materie[materieSelect.value]);
+            };
+            paginationContainer.appendChild(prevButton);
+        }
+
+        if (currentPage < totalPages) {
+            const nextButton = document.createElement('button');
+            nextButton.textContent = 'Successivo';
+            nextButton.onclick = () => {
+                currentPage++;
+                aggiornaListaArgomenti(materie[materieSelect.value]);
+            };
+            paginationContainer.appendChild(nextButton);
+        }
+    }
 }
 
 confirmAddButton.addEventListener('click', () => {
