@@ -10,6 +10,7 @@ body {
     align-items: center;
     height: 100vh;
     text-align: center;
+    overflow: hidden; /* Rimuovi se vuoi che il corpo della pagina possa scorrere */
 }
 
 #app {
@@ -20,6 +21,11 @@ body {
     max-width: 600px;
     width: 100%;
     position: relative;
+    max-height: 90vh; /* Limita l'altezza dell'app */
+    overflow: hidden; /* Nascondi overflow */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 /* Scritta di benvenuto */
@@ -30,7 +36,7 @@ body {
     margin-bottom: 20px;
 }
 
-/* Contenitore per aggiungere materie e argomenti */
+/* Sezione per aggiungere argomenti */
 #add-section {
     opacity: 0;
     max-height: 0;
@@ -43,43 +49,17 @@ body {
     max-height: 400px;
 }
 
-/* Campi di input e pulsanti */
-#add-materia-container,
-#materie-section {
-    margin: 20px 0;
-    text-align: center;
-}
-
-#new-materia, #new-argomento, #materie-select {
-    width: 70%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin: 10px 0;
-}
-
-#add-materia-button, #confirm-add {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#add-materia-button:hover, #confirm-add:hover {
-    background-color: #0056b3;
-}
-
-/* Lista argomenti */
+/* Contenitore per gli argomenti */
 #argomenti-list {
     list-style: none;
     padding: 0;
     margin: 20px 0 0;
     text-align: left;
+    max-height: 200px; /* Limita l'altezza della lista */
+    overflow-y: auto; /* Aggiungi lo scrolling verticale */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
 }
 
 #argomenti-list li {
@@ -112,50 +92,29 @@ body {
     background-color: #e55042;
 }
 
-/* Tasto "+" */
-#add-button-container {
-    margin-bottom: 20px;
-    position: relative;
+/* Pulsanti e input */
+#new-materia, #new-argomento, #materie-select {
+    width: 70%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 10px 0;
 }
 
-#add-button {
-    padding: 15px 20px;
-    font-size: 20px;
+#add-materia-button, #confirm-add {
+    padding: 10px 20px;
+    font-size: 16px;
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-#add-button:hover {
-    background-color: #0056b3;
-    transform: scale(1.1);
-}
-
-/* Tooltip per il tasto "+" */
-#tooltip {
-    display: none;
-    position: absolute;
-    top: -30px;
-    right: 0;
-    background-color: #333;
-    color: white;
-    padding: 5px 10px;
-    font-size: 12px;
     border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-#add-button-container:hover #tooltip {
-    display: block;
+#add-materia-button:hover, #confirm-add:hover {
+    background-color: #0056b3;
 }
 
 /* Tasto Sorteggia */
@@ -183,4 +142,22 @@ body {
     font-size: 20px;
     font-weight: bold;
     color: #4CAF50;
+}
+
+/* Tooltip per il tasto "+" */
+#tooltip {
+    display: none;
+    position: absolute;
+    top: -30px;
+    right: 0;
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#add-button-container:hover #tooltip {
+    display: block;
 }
