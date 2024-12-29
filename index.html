@@ -139,7 +139,7 @@
             });
         }
 
-        // Sorteggia un argomento senza ripetizione fino al completamento dell'elenco
+        // Sorteggia un argomento ponderato senza ripetizione fino al completamento dell'elenco
         sorteggiaButton.addEventListener('click', () => {
             const dbRef = ref(database, "argomenti");
             get(dbRef).then((snapshot) => {
@@ -156,8 +156,23 @@
                         return;
                     }
 
-                    // Sorteggia uno degli argomenti non ancora sorteggiati
-                    const casuale = nonSorteggiati[Math.floor(Math.random() * nonSorteggiati.length)];
+                    // Costruisci un array ponderato basato sui pesi
+                    const ponderato = [];
+                    nonSorteggiati.forEach((item) => {
+                        const match = item.match(/^(\d+)\s+(.*)$/); // Estrae il peso e il testo
+                        if (match) {
+                            const peso = parseInt(match[1], 10); // Numero iniziale come peso
+                            const testo = match[2];
+                            for (let i = 0; i < peso; i++) {
+                                ponderato.push(item);
+                            }
+                        }
+                    });
+
+                    // Sorteggia dall'array ponderato
+                    const casuale = ponderato[Math.floor(Math.random() * ponderato.length)];
+
+                    // Aggiungi agli argomenti sorteggiati
                     argomentiSorteggiati.push(casuale);
 
                     // Mostra il risultato
