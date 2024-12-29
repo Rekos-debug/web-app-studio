@@ -159,7 +159,6 @@ function rimuoviArgomento(index) {
 sorteggiaButton.addEventListener('click', () => {
     const tuttiArgomenti = [];
 
-    // Creiamo la lista ponderata degli argomenti
     for (const materia in materie) {
         materie[materia].forEach(argomento => {
             const match = argomento.match(/^(\d+)\s+(.*)$/); // Estrae il peso e il testo
@@ -180,15 +179,16 @@ sorteggiaButton.addEventListener('click', () => {
 
     const casuale = tuttiArgomenti[Math.floor(Math.random() * tuttiArgomenti.length)];
 
-    // Incrementiamo il contatore
     if (!sorteggiCounter[casuale.testo]) {
         sorteggiCounter[casuale.testo] = 0;
     }
     sorteggiCounter[casuale.testo]++;
 
-    // Mostriamo il risultato con il numero di volte uscito
     materiaResult.textContent = `Materia: ${casuale.materia}`;
-    result.innerHTML = `<span>Argomento: ${casuale.testo}</span><br><span class="sub-result">Numero di volte uscito: ${sorteggiCounter[casuale.testo]}</span>`;
+    result.innerHTML = `
+        <div class="result-argomento">Argomento: <strong>${casuale.testo}</strong></div>
+        <div class="result-contatore">Numero di volte uscito: ${sorteggiCounter[casuale.testo]}</div>
+    `;
     materiaResult.classList.remove('hidden');
     result.classList.remove('hidden');
 });
