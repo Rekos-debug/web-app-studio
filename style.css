@@ -1,47 +1,101 @@
-﻿body {
+body {
     font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
     text-align: center;
-    background-color: #f4f4f9;
     margin: 0;
-    padding: 20px;
+    padding: 0;
 }
 
 #app {
     max-width: 600px;
-    margin: 50px auto;
+    margin: 0 auto;
     padding: 20px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    top: 50%;
+    transform: translateY(50%);
 }
 
-textarea {
-    width: 100%;
-    height: 150px;
-    margin: 10px 0;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-button {
+#add-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    width: 50px;
+    height: 50px;
     background-color: #007bff;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
+    border-radius: 50%;
     cursor: pointer;
-    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    outline: none;
+    transition: transform 0.2s ease-in-out;
 }
 
-    button:hover {
-        background-color: #0056b3;
-    }
+#add-button:hover {
+    transform: scale(1.1);
+}
 
-#risultato {
+#add-section {
     margin-top: 20px;
-    font-size: 20px;
-    font-weight: bold;
+}
+
+#new-argomento {
+    width: 70%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+#confirm-add {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+h1, h2 {
+    margin: 20px 0;
     color: #333;
+}
+
+.hidden {
+    display: none;
+}
+
+#sorteggia-button {
+    margin-top: 30px;
+    padding: 15px 30px;
+    font-size: 18px;
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#result {
+    margin-top: 40px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+    text-transform: uppercase;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
