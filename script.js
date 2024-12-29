@@ -178,7 +178,6 @@ sorteggiaButton.addEventListener('click', () => {
         return;
     }
 
-    // Sorteggiamo un argomento casuale dalla lista ponderata
     const casuale = tuttiArgomenti[Math.floor(Math.random() * tuttiArgomenti.length)];
 
     // Incrementiamo il contatore
@@ -189,7 +188,7 @@ sorteggiaButton.addEventListener('click', () => {
 
     // Mostriamo il risultato con il numero di volte uscito
     materiaResult.textContent = `Materia: ${casuale.materia}`;
-    result.textContent = `Argomento: ${casuale.testo} (Numero di volte uscito: ${sorteggiCounter[casuale.testo]})`;
+    result.innerHTML = `<span>Argomento: ${casuale.testo}</span><br><span class="sub-result">Numero di volte uscito: ${sorteggiCounter[casuale.testo]}</span>`;
     materiaResult.classList.remove('hidden');
     result.classList.remove('hidden');
 });
