@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
 import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
-// Configurazione Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyCgER4IT8ypsTWBQAfpcOQtakrMUn4fzqo",
     authDomain: "database-argomenti-studio.firebaseapp.com",
@@ -15,10 +14,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
+const addButton = document.getElementById('add-button');
+const addSection = document.getElementById('add-section');
 const newMateriaInput = document.getElementById('new-materia');
 const addMateriaButton = document.getElementById('add-materia-button');
 const materieSelect = document.getElementById('materie-select');
-const addSection = document.getElementById('add-section');
 const newArgomentoInput = document.getElementById('new-argomento');
 const confirmAddButton = document.getElementById('confirm-add');
 const argomentiList = document.getElementById('argomenti-list');
@@ -28,7 +28,10 @@ const result = document.getElementById('result');
 
 let materie = {};
 
-// Carica materie dal database
+addButton.addEventListener('click', () => {
+    addSection.classList.toggle('hidden');
+});
+
 function caricaMaterie() {
     const dbRef = ref(database);
     get(child(dbRef, "materie")).then(snapshot => {
@@ -39,7 +42,6 @@ function caricaMaterie() {
     });
 }
 
-// Aggiorna il menu a tendina delle materie
 function aggiornaMaterieSelect() {
     materieSelect.innerHTML = '<option value="">Seleziona una materia</option>';
     for (const materia in materie) {
@@ -50,7 +52,6 @@ function aggiornaMaterieSelect() {
     }
 }
 
-// Aggiungi una nuova materia
 addMateriaButton.addEventListener('click', () => {
     const nuovaMateria = newMateriaInput.value.trim();
     if (nuovaMateria && !materie[nuovaMateria]) {
@@ -62,7 +63,6 @@ addMateriaButton.addEventListener('click', () => {
     }
 });
 
-// Mostra la lista degli argomenti di una materia selezionata
 materieSelect.addEventListener('change', () => {
     const materiaSelezionata = materieSelect.value;
     if (materiaSelezionata) {
@@ -72,14 +72,12 @@ materieSelect.addEventListener('change', () => {
     }
 });
 
-// Aggiorna la lista degli argomenti
 function aggiornaListaArgomenti(argomenti) {
     argomentiList.innerHTML = '';
     argomenti.forEach((item, index) => {
         const li = document.createElement('li');
         li.textContent = item;
 
-        // Pulsante Rimuovi
         const rimuoviButton = document.createElement('button');
         rimuoviButton.textContent = 'Rimuovi';
         rimuoviButton.onclick = () => rimuoviArgomento(index);
@@ -88,10 +86,13 @@ function aggiornaListaArgomenti(argomenti) {
         argomentiList.appendChild(li);
     });
 
-    scrollToBottom(argomentiList); // Scorri fino all'ultimo elemento
+    scrollToBottom(argomentiList);
 }
 
-// Aggiungi nuovo argomento alla materia selezionata
+function scrollToBottom(container) {
+    container.scrollTop = container.scrollHeight;
+}
+
 confirmAddButton.addEventListener('click', () => {
     const materiaSelezionata = materieSelect.value;
     const nuovoArgomento = newArgomentoInput.value.trim();
@@ -104,7 +105,6 @@ confirmAddButton.addEventListener('click', () => {
     }
 });
 
-// Rimuovi argomento dalla materia selezionata
 function rimuoviArgomento(index) {
     const materiaSelezionata = materieSelect.value;
     if (materiaSelezionata) {
@@ -115,10 +115,31 @@ function rimuoviArgomento(index) {
     }
 }
 
-// Scorri fino all'ultimo elemento della lista
-function scrollToBottom(container) {
-    container.scrollTop = container.scrollHeight;
-}
+sorteggiaButton.addEventListener('click', () => {
+    const tuttiArgomenti = [];
+    for (const materia in materie) {
+        materie[materia].forEach(argomento => {
+            const match = argomento.match(/^(\\d+)\\s+(.*)$/);
+            if (match) {
+                const peso = parseInt(match[1], 10);
+                const testo = match[2];
+                for (let i = 0; i < peso; i++) {
+                    tuttiArgomenti.push({ materia, testo });
+                }
+            }
+        });
+    }
 
-// Inizializzazione
+    if (tuttiArgomenti.length === 0) {
+        alert("Nessun argomento disponibile!");
+        return;
+    }
+
+    const casuale = tuttiArgomenti[Math.floor(Math.random() * tuttiArgomenti.length)];
+    materiaResult.textContent = `Materia: ${casuale.materia}`;
+    result.textContent = `Argomento: ${casuale.testo}`;
+    materiaResult.classList.remove('hidden');
+    result.classList.remove('hidden');
+});
+
 caricaMaterie();
