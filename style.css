@@ -27,11 +27,24 @@ body {
     align-items: center; /* Centrare il contenuto */
 }
 
-/* Posizionamento del tasto "+" */
+/* Contenitore messaggio benvenuto */
+#welcome-message-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+#welcome-message {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+/* Stile del tasto "+" */
 #add-button-container {
-    position: absolute;
-    top: 20px;
-    right: 30px; /* Più a destra rispetto al centro */
+    position: relative;
+    margin-right: 10px;
 }
 
 #add-button {
@@ -66,7 +79,8 @@ body {
     display: none;
     position: absolute;
     top: -30px;
-    right: 0;
+    left: 50%;
+    transform: translateX(-50%);
     background-color: #333;
     color: white;
     padding: 5px 10px;
@@ -77,16 +91,6 @@ body {
 
 #add-button-container:hover #tooltip {
     display: block;
-}
-
-/* Scritta di benvenuto */
-#welcome-message {
-    font-size: 24px;
-    font-weight: bold;
-    color: #4CAF50;
-    margin-top: 50px;
-    margin-bottom: 20px;
-    text-align: center;
 }
 
 /* Sezione per aggiungere materia e argomenti */
