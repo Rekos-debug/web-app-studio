@@ -25,6 +25,12 @@ const argomentiList = document.getElementById('argomenti-list');
 const sorteggiaButton = document.getElementById('sorteggia-button');
 const result = document.getElementById('result');
 
+// Mostra la scritta di benvenuto con animazione
+window.addEventListener('load', () => {
+    const welcomeMessage = document.getElementById('welcome-message');
+    welcomeMessage.classList.remove('hidden');
+});
+
 // Mostra/nasconde la sezione di aggiunta e l'elenco
 addButton.addEventListener('click', () => {
     addSection.classList.toggle('hidden');
