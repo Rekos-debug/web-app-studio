@@ -8,12 +8,13 @@
 </head>
 <body>
     <div id="app">
-        <h1 id="welcome-message" class="hidden">Benvenuta Alessia!</h1>
-
-        <!-- Tasto per aggiungere materia e argomenti -->
-        <div id="add-button-container">
-            <button id="add-button">+</button>
-            <span id="tooltip" class="hidden">Aggiungi materia o argomenti</span>
+        <!-- Contenitore messaggio benvenuto e tasto "+" -->
+        <div id="welcome-message-container">
+            <div id="add-button-container">
+                <button id="add-button">+</button>
+                <span id="tooltip" class="hidden">Aggiungi materia o argomenti</span>
+            </div>
+            <h1 id="welcome-message" class="hidden">Benvenuta Alessia!</h1>
         </div>
 
         <!-- Sezione nascosta per aggiungere materia e selezionare argomenti -->
@@ -74,6 +75,7 @@
 
         let materie = {};
 
+        // Mostra/nasconde la sezione aggiungi
         addButton.addEventListener('click', () => {
             addSection.classList.toggle('hidden');
         });
@@ -131,12 +133,6 @@
                 li.appendChild(rimuoviButton);
                 argomentiList.appendChild(li);
             });
-
-            scrollToBottom(argomentiList);
-        }
-
-        function scrollToBottom(container) {
-            container.scrollTop = container.scrollHeight;
         }
 
         confirmAddButton.addEventListener('click', () => {
@@ -165,7 +161,7 @@
             const tuttiArgomenti = [];
             for (const materia in materie) {
                 materie[materia].forEach(argomento => {
-                    const match = argomento.match(/^(\\d+)\\s+(.*)$/);
+                    const match = argomento.match(/^(\d+)\s+(.*)$/);
                     if (match) {
                         const peso = parseInt(match[1], 10);
                         const testo = match[2];
