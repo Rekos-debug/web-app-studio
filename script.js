@@ -15,121 +15,110 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-// Elementi della pagina
-const addButton = document.getElementById('add-button');
+const newMateriaInput = document.getElementById('new-materia');
+const addMateriaButton = document.getElementById('add-materia-button');
+const materieSelect = document.getElementById('materie-select');
 const addSection = document.getElementById('add-section');
-const tooltip = document.getElementById('tooltip');
 const newArgomentoInput = document.getElementById('new-argomento');
-const newPesoInput = document.getElementById('new-peso');
 const confirmAddButton = document.getElementById('confirm-add');
 const argomentiList = document.getElementById('argomenti-list');
 const sorteggiaButton = document.getElementById('sorteggia-button');
+const materiaResult = document.getElementById('materia-result');
 const result = document.getElementById('result');
 
-// Mostra la scritta di benvenuto con animazione
-window.addEventListener('load', () => {
-    const welcomeMessage = document.getElementById('welcome-message');
-    welcomeMessage.classList.remove('hidden');
-});
+let materie = {};
 
-// Mostra/nasconde la sezione di aggiunta
-addButton.addEventListener('click', () => {
-    addSection.classList.toggle('hidden');
-});
-
-// Carica argomenti dal database
-function caricaArgomenti() {
+// Carica materie dal database
+function caricaMaterie() {
     const dbRef = ref(database);
-    get(child(dbRef, "argomenti")).then((snapshot) => {
+    get(child(dbRef, "materie")).then(snapshot => {
         if (snapshot.exists()) {
-            aggiornaListaArgomenti(snapshot.val());
+            materie = snapshot.val();
+            aggiornaMaterieSelect();
         }
     });
 }
+
+// Aggiorna il menu a tendina delle materie
+function aggiornaMaterieSelect() {
+    materieSelect.innerHTML = '<option value="">Seleziona una materia</option>';
+    for (const materia in materie) {
+        const option = document.createElement('option');
+        option.value = materia;
+        option.textContent = materia;
+        materieSelect.appendChild(option);
+    }
+}
+
+// Aggiungi una nuova materia
+addMateriaButton.addEventListener('click', () => {
+    const nuovaMateria = newMateriaInput.value.trim();
+    if (nuovaMateria && !materie[nuovaMateria]) {
+        materie[nuovaMateria] = [];
+        set(ref(database, "materie"), materie).then(() => {
+            newMateriaInput.value = '';
+            aggiornaMaterieSelect();
+        });
+    }
+});
+
+// Mostra la lista degli argomenti di una materia selezionata
+materieSelect.addEventListener('change', () => {
+    const materiaSelezionata = materieSelect.value;
+    if (materiaSelezionata) {
+        aggiornaListaArgomenti(materie[materiaSelezionata]);
+    } else {
+        argomentiList.innerHTML = '';
+    }
+});
 
 // Aggiorna la lista degli argomenti
 function aggiornaListaArgomenti(argomenti) {
     argomentiList.innerHTML = '';
     argomenti.forEach((item, index) => {
         const li = document.createElement('li');
-        li.className = 'argomento-item';
-        li.textContent = item.testo;
-
-        // Input per il peso
-        const pesoInput = document.createElement('input');
-        pesoInput.type = 'number';
-        pesoInput.value = item.peso;
-        pesoInput.addEventListener('change', () => aggiornaPeso(index, pesoInput.value));
+        li.textContent = item;
 
         // Pulsante Rimuovi
         const rimuoviButton = document.createElement('button');
         rimuoviButton.textContent = 'Rimuovi';
         rimuoviButton.onclick = () => rimuoviArgomento(index);
 
-        li.appendChild(pesoInput);
         li.appendChild(rimuoviButton);
         argomentiList.appendChild(li);
     });
+
+    scrollToBottom(argomentiList); // Scorri fino all'ultimo elemento
 }
 
-// Aggiungi nuovo argomento
+// Aggiungi nuovo argomento alla materia selezionata
 confirmAddButton.addEventListener('click', () => {
+    const materiaSelezionata = materieSelect.value;
     const nuovoArgomento = newArgomentoInput.value.trim();
-    const peso = parseInt(newPesoInput.value.trim()) || 1; // Default peso: 1
-    if (nuovoArgomento) {
-        const dbRef = ref(database, "argomenti");
-        get(dbRef).then((snapshot) => {
-            const argomenti = snapshot.exists() ? snapshot.val() : [];
-            argomenti.push({ testo: nuovoArgomento, peso });
-            set(dbRef, argomenti).then(() => {
-                aggiornaListaArgomenti(argomenti);
-                newArgomentoInput.value = '';
-                newPesoInput.value = '';
-            });
+    if (materiaSelezionata && nuovoArgomento) {
+        materie[materiaSelezionata].push(nuovoArgomento);
+        set(ref(database, "materie"), materie).then(() => {
+            newArgomentoInput.value = '';
+            aggiornaListaArgomenti(materie[materiaSelezionata]);
         });
     }
 });
 
-// Rimuovi argomento
+// Rimuovi argomento dalla materia selezionata
 function rimuoviArgomento(index) {
-    const dbRef = ref(database, "argomenti");
-    get(dbRef).then((snapshot) => {
-        const argomenti = snapshot.val();
-        argomenti.splice(index, 1);
-        set(dbRef, argomenti).then(() => aggiornaListaArgomenti(argomenti));
-    });
+    const materiaSelezionata = materieSelect.value;
+    if (materiaSelezionata) {
+        materie[materiaSelezionata].splice(index, 1);
+        set(ref(database, "materie"), materie).then(() => {
+            aggiornaListaArgomenti(materie[materiaSelezionata]);
+        });
+    }
 }
 
-// Aggiorna il peso
-function aggiornaPeso(index, peso) {
-    const dbRef = ref(database, "argomenti");
-    get(dbRef).then((snapshot) => {
-        const argomenti = snapshot.val();
-        argomenti[index].peso = parseInt(peso) || 1; // Default peso: 1
-        set(dbRef, argomenti);
-    });
+// Scorri fino all'ultimo elemento della lista
+function scrollToBottom(container) {
+    container.scrollTop = container.scrollHeight;
 }
-
-// Sorteggia un argomento ponderato
-sorteggiaButton.addEventListener('click', () => {
-    const dbRef = ref(database, "argomenti");
-    get(dbRef).then((snapshot) => {
-        if (snapshot.exists()) {
-            const argomenti = snapshot.val();
-            const ponderato = [];
-            argomenti.forEach((item) => {
-                for (let i = 0; i < item.peso; i++) {
-                    ponderato.push(item.testo);
-                }
-            });
-            const casuale = ponderato[Math.floor(Math.random() * ponderato.length)];
-            result.textContent = `Argomento: ${casuale}`;
-            result.classList.remove('hidden');
-        } else {
-            alert("Nessun argomento disponibile!");
-        }
-    });
-});
 
 // Inizializzazione
-caricaArgomenti();
+caricaMaterie();
