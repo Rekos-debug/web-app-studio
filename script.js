@@ -30,6 +30,7 @@ const result = document.getElementById('result');
 let materie = {};
 let currentPage = 1;
 const itemsPerPage = 5; // Numero massimo di elementi per pagina
+let sorteggiCounter = {}; // Contatore globale per gli argomenti sorteggiati
 
 // Mostra/nasconde la sezione aggiungi
 addButton.addEventListener('click', () => {
@@ -86,7 +87,13 @@ function aggiornaListaArgomenti(argomenti) {
 
     paginatedArgomenti.forEach((item, index) => {
         const li = document.createElement('li');
-        li.textContent = item;
+
+        // Mostra il contatore accanto all'argomento
+        const match = item.match(/^(\d+)\s+(.*)$/);
+        const testo = match ? match[2] : item;
+        const count = sorteggiCounter[testo] || 0;
+
+        li.textContent = `${item} (Sorteggiato: ${count} volte)`;
 
         const rimuoviButton = document.createElement('button');
         rimuoviButton.textContent = 'Rimuovi';
@@ -151,9 +158,11 @@ function rimuoviArgomento(index) {
 
 sorteggiaButton.addEventListener('click', () => {
     const tuttiArgomenti = [];
+
+    // Creiamo la lista ponderata degli argomenti
     for (const materia in materie) {
         materie[materia].forEach(argomento => {
-            const match = argomento.match(/^(\d+)\s+(.*)$/);
+            const match = argomento.match(/^(\d+)\s+(.*)$/); // Estrae il peso e il testo
             if (match) {
                 const peso = parseInt(match[1], 10);
                 const testo = match[2];
@@ -169,9 +178,18 @@ sorteggiaButton.addEventListener('click', () => {
         return;
     }
 
+    // Sorteggiamo un argomento casuale dalla lista ponderata
     const casuale = tuttiArgomenti[Math.floor(Math.random() * tuttiArgomenti.length)];
+
+    // Incrementiamo il contatore
+    if (!sorteggiCounter[casuale.testo]) {
+        sorteggiCounter[casuale.testo] = 0;
+    }
+    sorteggiCounter[casuale.testo]++;
+
+    // Mostriamo il risultato con il numero di volte uscito
     materiaResult.textContent = `Materia: ${casuale.materia}`;
-    result.textContent = `Argomento: ${casuale.testo}`;
+    result.textContent = `Argomento: ${casuale.testo} (Numero di volte uscito: ${sorteggiCounter[casuale.testo]})`;
     materiaResult.classList.remove('hidden');
     result.classList.remove('hidden');
 });
