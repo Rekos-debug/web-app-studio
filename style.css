@@ -20,6 +20,11 @@ body {
     max-width: 400px;
     width: 100%;
     position: relative;
+    transition: transform 0.3s ease;
+}
+
+#app:hover {
+    transform: scale(1.01);
 }
 
 /* Tasto "+" con Tooltip */
@@ -66,6 +71,15 @@ body {
 /* Sezione di aggiunta argomenti */
 #add-section {
     margin-top: 20px;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.3s ease, max-height 0.3s ease;
+}
+
+#add-section:not(.hidden) {
+    opacity: 1;
+    max-height: 200px;
 }
 
 .hidden {
