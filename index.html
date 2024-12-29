@@ -19,6 +19,7 @@
         <!-- Sezione per aggiungere e visualizzare gli argomenti -->
         <div id="add-section" class="hidden">
             <input type="text" id="new-argomento" placeholder="Inserisci un nuovo argomento">
+            <input type="number" id="new-peso" placeholder="Peso (es: 100)">
             <button id="confirm-add">Aggiungi</button>
             <ul id="argomenti-list"></ul>
         </div>
@@ -53,6 +54,7 @@
         const addSection = document.getElementById('add-section');
         const tooltip = document.getElementById('tooltip');
         const newArgomentoInput = document.getElementById('new-argomento');
+        const newPesoInput = document.getElementById('new-peso');
         const confirmAddButton = document.getElementById('confirm-add');
         const argomentiList = document.getElementById('argomenti-list');
         const sorteggiaButton = document.getElementById('sorteggia-button');
@@ -92,14 +94,22 @@
         // Aggiorna la lista degli argomenti
         function aggiornaListaArgomenti(argomenti) {
             argomentiList.innerHTML = '';
-            argomenti.forEach((argomento, index) => {
+            argomenti.forEach((item, index) => {
                 const li = document.createElement('li');
-                li.textContent = argomento;
+                li.textContent = item.testo;
 
+                // Input per il peso
+                const pesoInput = document.createElement('input');
+                pesoInput.type = 'number';
+                pesoInput.value = item.peso;
+                pesoInput.addEventListener('change', () => aggiornaPeso(index, pesoInput.value));
+
+                // Pulsante Rimuovi
                 const rimuoviButton = document.createElement('button');
                 rimuoviButton.textContent = 'Rimuovi';
                 rimuoviButton.onclick = () => rimuoviArgomento(index);
 
+                li.appendChild(pesoInput);
                 li.appendChild(rimuoviButton);
                 argomentiList.appendChild(li);
             });
@@ -108,14 +118,16 @@
         // Aggiungi nuovo argomento
         confirmAddButton.addEventListener('click', () => {
             const nuovoArgomento = newArgomentoInput.value.trim();
+            const peso = parseInt(newPesoInput.value.trim()) || 1; // Default peso: 1
             if (nuovoArgomento) {
                 const dbRef = ref(database, "argomenti");
                 get(dbRef).then((snapshot) => {
                     const argomenti = snapshot.exists() ? snapshot.val() : [];
-                    argomenti.push(nuovoArgomento);
+                    argomenti.push({ testo: nuovoArgomento, peso });
                     set(dbRef, argomenti).then(() => {
                         aggiornaListaArgomenti(argomenti);
                         newArgomentoInput.value = '';
+                        newPesoInput.value = '';
                     });
                 });
             }
@@ -131,13 +143,29 @@
             });
         }
 
-        // Sorteggia un argomento
+        // Aggiorna il peso
+        function aggiornaPeso(index, peso) {
+            const dbRef = ref(database, "argomenti");
+            get(dbRef).then((snapshot) => {
+                const argomenti = snapshot.val();
+                argomenti[index].peso = parseInt(peso) || 1; // Default peso: 1
+                set(dbRef, argomenti);
+            });
+        }
+
+        // Sorteggia un argomento ponderato
         sorteggiaButton.addEventListener('click', () => {
             const dbRef = ref(database, "argomenti");
             get(dbRef).then((snapshot) => {
                 if (snapshot.exists()) {
                     const argomenti = snapshot.val();
-                    const casuale = argomenti[Math.floor(Math.random() * argomenti.length)];
+                    const ponderato = [];
+                    argomenti.forEach((item) => {
+                        for (let i = 0; i < item.peso; i++) {
+                            ponderato.push(item.testo);
+                        }
+                    });
+                    const casuale = ponderato[Math.floor(Math.random() * ponderato.length)];
                     result.textContent = `Argomento: ${casuale}`;
                     result.classList.remove('hidden');
                 } else {
