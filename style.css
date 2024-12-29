@@ -17,75 +17,62 @@ body {
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    max-width: 500px;
+    max-width: 600px;
     width: 100%;
     position: relative;
-    transition: transform 0.3s ease;
 }
 
-#app:hover {
-    transform: scale(1.01);
-}
-
-/* Scritta \"Benvenuta Alessia!\" */
+/* Scritta di benvenuto */
 #welcome-message {
     font-size: 24px;
     font-weight: bold;
     color: #4CAF50;
     margin-bottom: 20px;
-    opacity: 0;
-    animation: fadeIn 1s ease-out forwards;
 }
 
-.hidden {
-    display: none;
+/* Contenitore per aggiungere materie */
+#add-materia-container {
+    margin: 20px 0;
+    text-align: center;
 }
 
-/* Tasto \"+\" con Tooltip */
-#add-button-container {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+#new-materia {
+    width: 60%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
 }
 
-#add-button {
-    background-color: #4CAF50;
+#add-materia-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
     color: white;
-    font-size: 24px;
-    width: 50px;
-    height: 50px;
     border: none;
-    border-radius: 50%;
+    border-radius: 4px;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
-#add-button:hover {
-    transform: scale(1.1);
-    background-color: #388E3C;
+#add-materia-button:hover {
+    background-color: #0056b3;
 }
 
-#tooltip {
-    display: none;
-    position: absolute;
-    top: 60px;
-    right: 10px;
-    background-color: black;
-    color: white;
-    padding: 5px 10px;
-    font-size: 12px;
+/* Menu a tendina per selezionare la materia */
+#materie-select {
+    width: 70%;
+    padding: 10px;
+    font-size: 16px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
     border-radius: 4px;
 }
 
-#add-button-container:hover #tooltip {
-    display: block;
-}
-
-/* Sezione di aggiunta argomenti */
+/* Sezione per aggiungere argomenti */
 #add-section {
-    margin-top: 20px;
-    padding: 20px 0;
+    margin-top: 10px;
     opacity: 0;
     max-height: 0;
     overflow: hidden;
@@ -98,26 +85,18 @@ body {
 }
 
 #new-argomento {
-    width: 55%;
-    padding: 12px;
+    width: 70%;
+    padding: 10px;
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 4px;
-}
-
-#new-peso {
-    width: 30%;
-    padding: 12px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-left: 10px;
+    margin-bottom: 10px;
 }
 
 #confirm-add {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #007bff;
+    background-color: #4CAF50;
     color: white;
     border: none;
     border-radius: 4px;
@@ -126,39 +105,31 @@ body {
 }
 
 #confirm-add:hover {
-    background-color: #0056b3;
+    background-color: #388E3C;
 }
 
+/* Lista argomenti */
 #argomenti-list {
     list-style: none;
     padding: 0;
-    margin-top: 20px;
+    margin: 20px 0 0;
     text-align: left;
 }
 
 #argomenti-list li {
-    padding: 10px;
     margin: 5px 0;
     background-color: #f4f4f4;
+    padding: 10px;
     border-radius: 4px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 #argomenti-list li:hover {
-    transform: scale(1.02);
     background-color: #e9ecef;
-}
-
-#argomenti-list input[type=\"number\"] {
-    width: 60px;
-    margin-left: 10px;
-    font-size: 14px;
-    padding: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    transform: scale(1.02);
 }
 
 #argomenti-list button {
@@ -168,7 +139,6 @@ body {
     padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 14px;
     transition: background-color 0.3s ease;
 }
 
@@ -176,38 +146,46 @@ body {
     background-color: #e55042;
 }
 
+/* Tasto Sorteggia */
 #sorteggia-button {
     padding: 15px 30px;
     font-size: 18px;
-    background-color: #ff6f61;
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 4px;
-    cursor: pointer;
     margin-top: 20px;
-    transition: background-color 0.3s ease;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 #sorteggia-button:hover {
-    background-color: #e55042;
+    background-color: #0056b3;
+    transform: scale(1.05);
 }
 
-#result {
+/* Risultato del sorteggio */
+#materia-result, #result {
     margin-top: 20px;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
     color: #4CAF50;
-    text-transform: uppercase;
-    animation: fadeIn 0.5s ease-out;
 }
 
-/* Animazioni */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+/* Tooltip per il tasto "+" */
+#tooltip {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 4px;
+}
+
+#add-button-container:hover #tooltip {
+    display: block;
 }
