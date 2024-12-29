@@ -31,8 +31,7 @@ body {
 #add-button-container {
     position: absolute;
     top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 30px; /* Più a destra rispetto al centro */
 }
 
 #add-button {
@@ -67,8 +66,7 @@ body {
     display: none;
     position: absolute;
     top: -30px;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 0;
     background-color: #333;
     color: white;
     padding: 5px 10px;
