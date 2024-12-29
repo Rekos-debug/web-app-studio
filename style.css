@@ -66,7 +66,10 @@ body {
 /* Sezione di aggiunta argomenti */
 #add-section {
     margin-top: 20px;
-    animation: fadeIn 0.5s ease-out;
+}
+
+.hidden {
+    display: none;
 }
 
 #new-argomento {
