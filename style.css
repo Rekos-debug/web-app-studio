@@ -1,43 +1,59 @@
+/* Stile globale */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    text-align: center;
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
 }
 
 #app {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    position: relative;
-    top: 50%;
-    transform: translateY(50%);
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
 }
 
-#add-button {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+/* Scritta di benvenuto */
+#welcome-message {
     font-size: 24px;
-    width: 50px;
-    height: 50px;
-    background-color: #007bff;
+    font-weight: bold;
+    margin-bottom: 20px;
+    animation: fadeInDown 1s ease-out;
+}
+
+/* Tasto "+" */
+#add-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4CAF50;
     color: white;
+    font-size: 30px;
+    width: 60px;
+    height: 60px;
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    outline: none;
-    transition: transform 0.2s ease-in-out;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
 }
 
 #add-button:hover {
     transform: scale(1.1);
+    background-color: #388E3C;
 }
 
+/* Sezione di aggiunta argomenti */
 #add-section {
-    margin-top: 20px;
+    margin: 20px 0;
 }
 
 #new-argomento {
@@ -46,30 +62,24 @@ body {
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    margin-right: 10px;
 }
 
 #confirm-add {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #28a745;
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
-h1, h2 {
-    margin: 20px 0;
-    color: #333;
+#confirm-add:hover {
+    background-color: #0056b3;
 }
 
-.hidden {
-    display: none;
-}
-
+/* Tasto "Sorteggia!" */
 #sorteggia-button {
-    margin-top: 30px;
     padding: 15px 30px;
     font-size: 18px;
     background-color: #ff6f61;
@@ -77,19 +87,40 @@ h1, h2 {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-#result {
-    margin-top: 40px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #007bff;
-    text-transform: uppercase;
-    animation: fadeIn 1s ease-in-out;
+#sorteggia-button:hover {
+    background-color: #e55042;
 }
 
+/* Risultato del sorteggio */
+#result {
+    font-size: 22px;
+    margin-top: 30px;
+    font-weight: bold;
+    color: #4CAF50;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Classi di supporto */
+.hidden {
+    display: none;
+}
+
+/* Animazioni */
 @keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDown {
     from {
         opacity: 0;
         transform: translateY(-20px);
