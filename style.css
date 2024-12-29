@@ -39,11 +39,12 @@ body {
     border-radius: 50%;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 #add-button:hover {
     transform: scale(1.1);
+    background-color: #388E3C;
 }
 
 #tooltip {
@@ -65,6 +66,7 @@ body {
 /* Sezione di aggiunta argomenti */
 #add-section {
     margin-top: 20px;
+    animation: fadeIn 0.5s ease-out;
 }
 
 #new-argomento {
@@ -83,6 +85,11 @@ body {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#confirm-add:hover {
+    background-color: #0056b3;
 }
 
 #argomenti-list {
@@ -100,6 +107,12 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: all 0.3s ease;
+}
+
+#argomenti-list li:hover {
+    transform: scale(1.02);
+    background-color: #e9ecef;
 }
 
 #argomenti-list button {
@@ -110,6 +123,11 @@ body {
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+#argomenti-list button:hover {
+    background-color: #e55042;
 }
 
 #sorteggia-button {
