@@ -24,7 +24,7 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centrare il contenuto */
+    align-items: center;
 }
 
 /* Contenitore messaggio benvenuto */
@@ -46,7 +46,7 @@ body {
 #add-button-container {
     position: absolute;
     top: 20px;
-    right: 30px; /* Posizionato a destra rispetto alla scritta */
+    right: 30px;
 }
 
 #add-button {
@@ -154,6 +154,28 @@ body {
     background-color: #e55042;
 }
 
+/* Paginazione */
+#pagination {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#pagination button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#pagination button:hover {
+    background-color: #0056b3;
+}
+
 /* Pulsanti e input */
 #new-materia, #new-argomento, #materie-select {
     width: 70%;
@@ -204,4 +226,13 @@ body {
     font-size: 20px;
     font-weight: bold;
     color: #4CAF50;
+    text-align: center;
+}
+
+#result .sub-result {
+    font-size: 16px;
+    font-weight: normal;
+    color: #555;
+    margin-top: 10px;
+    display: block;
 }
