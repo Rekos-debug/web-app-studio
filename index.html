@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,6 +13,75 @@
         <button id="bottone-sorteggia">Sorteggia</button>
         <div id="risultato"></div>
     </div>
-    <script src="script.js"></script>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+        import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCgER4IT8ypsTWBQAfpcOQtakrMUn4fzqo",
+            authDomain: "database-argomenti-studio.firebaseapp.com",
+            projectId: "database-argomenti-studio",
+            storageBucket: "database-argomenti-studio.firebasestorage.app",
+            messagingSenderId: "693225744695",
+            appId: "1:693225744695:web:9aef511c10b20afad852b2"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Riferimenti agli elementi della pagina
+        const textarea = document.getElementById('input-argomenti');
+        const bottoneSorteggia = document.getElementById('bottone-sorteggia');
+        const risultato = document.getElementById('risultato');
+
+        // Funzione per caricare gli argomenti dal database
+        function caricaArgomenti() {
+            const dbRef = ref(database);
+            get(child(dbRef, "argomenti")).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    textarea.value = data.join('\n'); // Mostra gli argomenti nel textarea
+                } else {
+                    console.log("Nessun dato trovato!");
+                }
+            }).catch((error) => {
+                console.error("Errore nel caricamento:", error);
+            });
+        }
+
+        // Funzione per salvare gli argomenti nel database
+        function salvaArgomenti() {
+            const argomenti = textarea.value.split('\n').filter(a => a.trim() !== '');
+            set(ref(database, "argomenti"), argomenti)
+                .then(() => {
+                    console.log("Argomenti salvati!");
+                })
+                .catch((error) => {
+                    console.error("Errore nel salvataggio:", error);
+                });
+        }
+
+        // Carica gli argomenti al caricamento della pagina
+        window.onload = caricaArgomenti;
+
+        // Salva gli argomenti ogni volta che vengono modificati
+        textarea.addEventListener('input', salvaArgomenti);
+
+        // Sorteggia un argomento
+        bottoneSorteggia.addEventListener('click', () => {
+            const argomenti = textarea.value.split('\n').filter(a => a.trim() !== '');
+            if (argomenti.length === 0) {
+                alert('Inserisci almeno un argomento!');
+                return;
+            }
+            const casuale = argomenti[Math.floor(Math.random() * argomenti.length)];
+            risultato.innerText = `Argomento sorteggiato: ${casuale}`;
+        });
+    </script>
 </body>
 </html>
