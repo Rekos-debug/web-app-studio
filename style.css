@@ -17,7 +17,7 @@ body {
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
+    max-width: 500px;
     width: 100%;
     position: relative;
     transition: transform 0.3s ease;
@@ -25,6 +25,20 @@ body {
 
 #app:hover {
     transform: scale(1.01);
+}
+
+/* Scritta "Benvenuta Alessia!" */
+#welcome-message {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4CAF50;
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+}
+
+.hidden {
+    display: none;
 }
 
 /* Tasto "+" con Tooltip */
@@ -71,6 +85,7 @@ body {
 /* Sezione di aggiunta argomenti */
 #add-section {
     margin-top: 20px;
+    padding: 20px 0;
     opacity: 0;
     max-height: 0;
     overflow: hidden;
@@ -79,19 +94,16 @@ body {
 
 #add-section:not(.hidden) {
     opacity: 1;
-    max-height: 200px;
-}
-
-.hidden {
-    display: none;
+    max-height: 400px;
 }
 
 #new-argomento {
-    width: 70%;
-    padding: 10px;
+    width: 90%;
+    padding: 12px;
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    margin-bottom: 10px;
 }
 
 #confirm-add {
