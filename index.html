@@ -74,6 +74,7 @@
         const result = document.getElementById('result');
 
         let materie = {};
+        let sorteggiCounter = {};
 
         // Mostra/nasconde la sezione aggiungi
         addButton.addEventListener('click', () => {
@@ -124,7 +125,13 @@
             argomentiList.innerHTML = '';
             argomenti.forEach((item, index) => {
                 const li = document.createElement('li');
-                li.textContent = item;
+
+                // Mostra il contatore accanto all'argomento
+                const match = item.match(/^(\d+)\s+(.*)$/);
+                const testo = match ? match[2] : item;
+                const count = sorteggiCounter[testo] || 0;
+
+                li.textContent = `${item} (Sorteggiato: ${count} volte)`;
 
                 const rimuoviButton = document.createElement('button');
                 rimuoviButton.textContent = 'Rimuovi';
@@ -178,8 +185,13 @@
             }
 
             const casuale = tuttiArgomenti[Math.floor(Math.random() * tuttiArgomenti.length)];
+            if (!sorteggiCounter[casuale.testo]) {
+                sorteggiCounter[casuale.testo] = 0;
+            }
+            sorteggiCounter[casuale.testo]++;
+
             materiaResult.textContent = `Materia: ${casuale.materia}`;
-            result.textContent = `Argomento: ${casuale.testo}`;
+            result.textContent = `Argomento: ${casuale.testo}\nNumero di volte uscito: ${sorteggiCounter[casuale.testo]}`;
             materiaResult.classList.remove('hidden');
             result.classList.remove('hidden');
         });
