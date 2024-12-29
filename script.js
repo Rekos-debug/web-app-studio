@@ -28,6 +28,7 @@ const result = document.getElementById('result');
 
 let materie = {};
 
+// Mostra/nasconde la sezione aggiungi
 addButton.addEventListener('click', () => {
     addSection.classList.toggle('hidden');
 });
@@ -86,6 +87,7 @@ function aggiornaListaArgomenti(argomenti) {
         argomentiList.appendChild(li);
     });
 
+    // Forza lo scroll verso il basso
     scrollToBottom(argomentiList);
 }
 
@@ -119,7 +121,7 @@ sorteggiaButton.addEventListener('click', () => {
     const tuttiArgomenti = [];
     for (const materia in materie) {
         materie[materia].forEach(argomento => {
-            const match = argomento.match(/^(\\d+)\\s+(.*)$/);
+            const match = argomento.match(/^(\d+)\s+(.*)$/);
             if (match) {
                 const peso = parseInt(match[1], 10);
                 const testo = match[2];
