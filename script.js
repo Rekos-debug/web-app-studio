@@ -16,56 +16,80 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
 // Elementi della pagina
-const welcomeMessage = document.getElementById('welcome-message');
 const addButton = document.getElementById('add-button');
 const addSection = document.getElementById('add-section');
 const newArgomentoInput = document.getElementById('new-argomento');
 const confirmAddButton = document.getElementById('confirm-add');
+const argomentiList = document.getElementById('argomenti-list');
 const sorteggiaButton = document.getElementById('sorteggia-button');
 const result = document.getElementById('result');
 
-// Animazione della scritta
-window.onload = () => {
-    welcomeMessage.classList.remove('hidden');
-};
-
-// Carica gli argomenti dal database
+// Carica argomenti dal database
 function caricaArgomenti() {
     const dbRef = ref(database);
     get(child(dbRef, "argomenti")).then((snapshot) => {
         if (snapshot.exists()) {
-            localStorage.setItem('argomenti', JSON.stringify(snapshot.val()));
+            aggiornaListaArgomenti(snapshot.val());
         }
-    }).catch((error) => console.error("Errore nel caricamento:", error));
+    });
 }
-caricaArgomenti();
+
+// Aggiorna la lista degli argomenti
+function aggiornaListaArgomenti(argomenti) {
+    argomentiList.innerHTML = '';
+    argomenti.forEach((argomento, index) => {
+        const li = document.createElement('li');
+        li.textContent = argomento;
+
+        const rimuoviButton = document.createElement('button');
+        rimuoviButton.textContent = 'Rimuovi';
+        rimuoviButton.onclick = () => rimuoviArgomento(index);
+
+        li.appendChild(rimuoviButton);
+        argomentiList.appendChild(li);
+    });
+}
 
 // Aggiungi nuovo argomento
-addButton.addEventListener('click', () => {
-    addSection.classList.toggle('hidden');
-});
-
 confirmAddButton.addEventListener('click', () => {
     const nuovoArgomento = newArgomentoInput.value.trim();
     if (nuovoArgomento) {
-        const argomenti = JSON.parse(localStorage.getItem('argomenti') || '[]');
-        argomenti.push(nuovoArgomento);
-        set(ref(database, "argomenti"), argomenti).then(() => {
-            localStorage.setItem('argomenti', JSON.stringify(argomenti));
-            newArgomentoInput.value = '';
-            addSection.classList.add('hidden');
+        const dbRef = ref(database, "argomenti");
+        get(dbRef).then((snapshot) => {
+            const argomenti = snapshot.exists() ? snapshot.val() : [];
+            argomenti.push(nuovoArgomento);
+            set(dbRef, argomenti).then(() => {
+                aggiornaListaArgomenti(argomenti);
+                newArgomentoInput.value = '';
+            });
         });
     }
 });
 
+// Rimuovi argomento
+function rimuoviArgomento(index) {
+    const dbRef = ref(database, "argomenti");
+    get(dbRef).then((snapshot) => {
+        const argomenti = snapshot.val();
+        argomenti.splice(index, 1);
+        set(dbRef, argomenti).then(() => aggiornaListaArgomenti(argomenti));
+    });
+}
+
 // Sorteggia un argomento
 sorteggiaButton.addEventListener('click', () => {
-    const argomenti = JSON.parse(localStorage.getItem('argomenti') || '[]');
-    if (argomenti.length === 0) {
-        alert("Nessun argomento disponibile!");
-        return;
-    }
-    const casuale = argomenti[Math.floor(Math.random() * argomenti.length)];
-    result.textContent = `Argomento: ${casuale}`;
-    result.classList.remove('hidden');
+    const dbRef = ref(database, "argomenti");
+    get(dbRef).then((snapshot) => {
+        if (snapshot.exists()) {
+            const argomenti = snapshot.val();
+            const casuale = argomenti[Math.floor(Math.random() * argomenti.length)];
+            result.textContent = `Argomento: ${casuale}`;
+            result.classList.remove('hidden');
+        } else {
+            alert("Nessun argomento disponibile!");
+        }
+    });
 });
+
+// Inizializzazione
+caricaArgomenti();
