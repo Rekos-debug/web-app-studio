@@ -27,7 +27,7 @@ body {
     transform: scale(1.01);
 }
 
-/* Scritta "Benvenuta Alessia!" */
+/* Scritta \"Benvenuta Alessia!\" */
 #welcome-message {
     font-size: 24px;
     font-weight: bold;
@@ -41,7 +41,7 @@ body {
     display: none;
 }
 
-/* Tasto "+" con Tooltip */
+/* Tasto \"+\" con Tooltip */
 #add-button-container {
     position: absolute;
     top: 20px;
@@ -98,12 +98,20 @@ body {
 }
 
 #new-argomento {
-    width: 90%;
+    width: 55%;
     padding: 12px;
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    margin-bottom: 10px;
+}
+
+#new-peso {
+    width: 30%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-left: 10px;
 }
 
 #confirm-add {
@@ -142,6 +150,15 @@ body {
 #argomenti-list li:hover {
     transform: scale(1.02);
     background-color: #e9ecef;
+}
+
+#argomenti-list input[type=\"number\"] {
+    width: 60px;
+    margin-left: 10px;
+    font-size: 14px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
 #argomenti-list button {
