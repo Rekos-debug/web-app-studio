@@ -30,49 +30,8 @@ body {
     margin-bottom: 20px;
 }
 
-/* Contenitore per aggiungere materie */
-#add-materia-container {
-    margin: 20px 0;
-    text-align: center;
-}
-
-#new-materia {
-    width: 60%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-right: 10px;
-}
-
-#add-materia-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#add-materia-button:hover {
-    background-color: #0056b3;
-}
-
-/* Menu a tendina per selezionare la materia */
-#materie-select {
-    width: 70%;
-    padding: 10px;
-    font-size: 16px;
-    margin: 10px 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-/* Sezione per aggiungere argomenti */
+/* Contenitore per aggiungere materie e argomenti */
 #add-section {
-    margin-top: 10px;
     opacity: 0;
     max-height: 0;
     overflow: hidden;
@@ -84,19 +43,26 @@ body {
     max-height: 400px;
 }
 
-#new-argomento {
+/* Campi di input e pulsanti */
+#add-materia-container,
+#materie-section {
+    margin: 20px 0;
+    text-align: center;
+}
+
+#new-materia, #new-argomento, #materie-select {
     width: 70%;
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 4px;
-    margin-bottom: 10px;
+    margin: 10px 0;
 }
 
-#confirm-add {
+#add-materia-button, #confirm-add {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #4CAF50;
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 4px;
@@ -104,8 +70,8 @@ body {
     transition: background-color 0.3s ease;
 }
 
-#confirm-add:hover {
-    background-color: #388E3C;
+#add-materia-button:hover, #confirm-add:hover {
+    background-color: #0056b3;
 }
 
 /* Lista argomenti */
@@ -146,6 +112,52 @@ body {
     background-color: #e55042;
 }
 
+/* Tasto "+" */
+#add-button-container {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+#add-button {
+    padding: 15px 20px;
+    font-size: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#add-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}
+
+/* Tooltip per il tasto "+" */
+#tooltip {
+    display: none;
+    position: absolute;
+    top: -30px;
+    right: 0;
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#add-button-container:hover #tooltip {
+    display: block;
+}
+
 /* Tasto Sorteggia */
 #sorteggia-button {
     padding: 15px 30px;
@@ -171,21 +183,4 @@ body {
     font-size: 20px;
     font-weight: bold;
     color: #4CAF50;
-}
-
-/* Tooltip per il tasto "+" */
-#tooltip {
-    display: none;
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    background-color: #333;
-    color: white;
-    padding: 5px 10px;
-    font-size: 12px;
-    border-radius: 4px;
-}
-
-#add-button-container:hover #tooltip {
-    display: block;
 }
