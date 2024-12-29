@@ -25,7 +25,7 @@ const argomentiList = document.getElementById('argomenti-list');
 const sorteggiaButton = document.getElementById('sorteggia-button');
 const result = document.getElementById('result');
 
-// Mostra/nasconde la sezione di aggiunta
+// Mostra/nasconde la sezione di aggiunta e l'elenco
 addButton.addEventListener('click', () => {
     addSection.classList.toggle('hidden');
 });
