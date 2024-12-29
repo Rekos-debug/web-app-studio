@@ -74,12 +74,10 @@
 
         let materie = {};
 
-        // Mostra/nasconde la sezione di aggiunta materie e argomenti
         addButton.addEventListener('click', () => {
             addSection.classList.toggle('hidden');
         });
 
-        // Carica materie dal database
         function caricaMaterie() {
             const dbRef = ref(database);
             get(child(dbRef, "materie")).then(snapshot => {
@@ -90,7 +88,6 @@
             });
         }
 
-        // Aggiorna il menu a tendina delle materie
         function aggiornaMaterieSelect() {
             materieSelect.innerHTML = '<option value="">Seleziona una materia</option>';
             for (const materia in materie) {
@@ -101,7 +98,6 @@
             }
         }
 
-        // Aggiungi una nuova materia
         addMateriaButton.addEventListener('click', () => {
             const nuovaMateria = newMateriaInput.value.trim();
             if (nuovaMateria && !materie[nuovaMateria]) {
@@ -113,7 +109,6 @@
             }
         });
 
-        // Mostra la lista degli argomenti di una materia selezionata
         materieSelect.addEventListener('change', () => {
             const materiaSelezionata = materieSelect.value;
             if (materiaSelezionata) {
@@ -123,14 +118,12 @@
             }
         });
 
-        // Aggiorna la lista degli argomenti
         function aggiornaListaArgomenti(argomenti) {
             argomentiList.innerHTML = '';
             argomenti.forEach((item, index) => {
                 const li = document.createElement('li');
                 li.textContent = item;
 
-                // Pulsante Rimuovi
                 const rimuoviButton = document.createElement('button');
                 rimuoviButton.textContent = 'Rimuovi';
                 rimuoviButton.onclick = () => rimuoviArgomento(index);
@@ -138,9 +131,14 @@
                 li.appendChild(rimuoviButton);
                 argomentiList.appendChild(li);
             });
+
+            scrollToBottom(argomentiList);
         }
 
-        // Aggiungi nuovo argomento alla materia selezionata
+        function scrollToBottom(container) {
+            container.scrollTop = container.scrollHeight;
+        }
+
         confirmAddButton.addEventListener('click', () => {
             const materiaSelezionata = materieSelect.value;
             const nuovoArgomento = newArgomentoInput.value.trim();
@@ -153,7 +151,6 @@
             }
         });
 
-        // Rimuovi argomento dalla materia selezionata
         function rimuoviArgomento(index) {
             const materiaSelezionata = materieSelect.value;
             if (materiaSelezionata) {
@@ -164,12 +161,11 @@
             }
         }
 
-        // Sorteggia un argomento da tutte le materie
         sorteggiaButton.addEventListener('click', () => {
             const tuttiArgomenti = [];
             for (const materia in materie) {
                 materie[materia].forEach(argomento => {
-                    const match = argomento.match(/^(\d+)\s+(.*)$/);
+                    const match = argomento.match(/^(\\d+)\\s+(.*)$/);
                     if (match) {
                         const peso = parseInt(match[1], 10);
                         const testo = match[2];
@@ -192,7 +188,6 @@
             result.classList.remove('hidden');
         });
 
-        // Inizializzazione
         caricaMaterie();
     </script>
 </body>
