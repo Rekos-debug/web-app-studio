@@ -155,7 +155,9 @@ function rimuoviArgomento(index) {
     }
 }
 
-sorteggiaButton.addEventListener('click', () => {
+sorteggiaButton.addEventListener('click', sorteggiaArgomento);
+
+function sorteggiaArgomento() {
     const tuttiArgomenti = [];
 
     for (const materia in materie) {
@@ -177,7 +179,6 @@ sorteggiaButton.addEventListener('click', () => {
     }
 
     const casuale = tuttiArgomenti[Math.floor(Math.random() * tuttiArgomenti.length)];
-
     if (!sorteggiCounter[casuale.testo]) {
         sorteggiCounter[casuale.testo] = 0;
     }
@@ -190,6 +191,16 @@ sorteggiaButton.addEventListener('click', () => {
     `;
     materiaResult.classList.remove('hidden');
     result.classList.remove('hidden');
+}
+
+confirmButton.addEventListener('click', () => {
+    // Implement logic to mark the topic as "do not sort again until next full cycle"
+    sorteggiaArgomento();  // Immediately sorts the next topic
+});
+
+rejectButton.addEventListener('click', () => {
+    // Implement logic to allow the topic to be resorted even if not all topics have been sorted yet
+    sorteggiaArgomento();  // Immediately sorts the next topic
 });
 
 caricaMaterie();
