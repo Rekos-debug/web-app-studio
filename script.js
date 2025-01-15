@@ -194,13 +194,22 @@ function sorteggiaArgomento() {
 }
 
 confirmButton.addEventListener('click', () => {
-    // Implement logic to mark the topic as "do not sort again until next full cycle"
+    // Aggiungi l'argomento corrente agli "Argomenti Ok"
+    aggiornaTabellaArgomenti(casuale.testo, true);
     sorteggiaArgomento();  // Immediately sorts the next topic
 });
 
 rejectButton.addEventListener('click', () => {
-    // Implement logic to allow the topic to be resorted even if not all topics have been sorted yet
+    // Aggiungi l'argomento corrente agli "Argomenti da rifare"
+    aggiornaTabellaArgomenti(casuale.testo, false);
     sorteggiaArgomento();  // Immediately sorts the next topic
 });
+
+function aggiornaTabellaArgomenti(argomento, isOk) {
+    const targetTable = isOk ? document.getElementById('argomenti-ok-list') : document.getElementById('argomenti-da-rifare-list');
+    let li = document.createElement('li');
+    li.textContent = argomento;
+    targetTable.appendChild(li);
+}
 
 caricaMaterie();
