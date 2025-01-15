@@ -26,13 +26,14 @@ const paginationContainer = document.getElementById('pagination');
 const sorteggiaButton = document.getElementById('sorteggia-button');
 const materiaResult = document.getElementById('materia-result');
 const result = document.getElementById('result');
+const confirmButton = document.getElementById('confirm-button');
+const rejectButton = document.getElementById('reject-button');
 
 let materie = {};
 let currentPage = 1;
-const itemsPerPage = 5; // Numero massimo di elementi per pagina
-let sorteggiCounter = {}; // Contatore globale per gli argomenti sorteggiati
+const itemsPerPage = 5;
+let sorteggiCounter = {};
 
-// Mostra/nasconde la sezione aggiungi
 addButton.addEventListener('click', () => {
     addSection.classList.toggle('hidden');
 });
@@ -70,7 +71,7 @@ addMateriaButton.addEventListener('click', () => {
 
 materieSelect.addEventListener('change', () => {
     const materiaSelezionata = materieSelect.value;
-    currentPage = 1; // Resetta alla prima pagina
+    currentPage = 1;
     if (materiaSelezionata) {
         aggiornaListaArgomenti(materie[materiaSelezionata]);
     } else {
@@ -87,8 +88,6 @@ function aggiornaListaArgomenti(argomenti) {
 
     paginatedArgomenti.forEach((item, index) => {
         const li = document.createElement('li');
-
-        // Mostra il contatore accanto all'argomento
         const match = item.match(/^(\d+)\s+(.*)$/);
         const testo = match ? match[2] : item;
         const count = sorteggiCounter[testo] || 0;
@@ -161,7 +160,7 @@ sorteggiaButton.addEventListener('click', () => {
 
     for (const materia in materie) {
         materie[materia].forEach(argomento => {
-            const match = argomento.match(/^(\d+)\s+(.*)$/); // Estrae il peso e il testo
+            const match = argomento.match(/^(\d+)\s+(.*)$/);
             if (match) {
                 const peso = parseInt(match[1], 10);
                 const testo = match[2];
