@@ -268,3 +268,24 @@ body {
     font-weight: normal;
     color: #555;
 }
+
+#tabella-argomenti {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+#tabella-argomenti div {
+    width: 50%;
+}
+
+#argomenti-ok-list, #argomenti-da-rifare-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#argomenti-ok-list li, #argomenti-da-rifare-list li {
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+}
