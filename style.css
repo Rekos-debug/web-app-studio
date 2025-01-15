@@ -176,6 +176,28 @@ body {
     background-color: #0056b3;
 }
 
+/* Pulsanti di conferma e rifiuto */
+.confirm, .reject {
+    padding: 10px 20px;
+    font-size: 24px;
+    color: white;
+    background-color: green; /* Verde per confermare */
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+}
+
+.reject {
+    background-color: red; /* Rosso per rifiutare */
+}
+
+.confirm:hover, .reject:hover {
+    opacity: 0.8;
+}
+
 /* Pulsanti e input */
 #new-materia, #new-argomento, #materie-select {
     width: 70%;
