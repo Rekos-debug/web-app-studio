@@ -41,6 +41,12 @@
         <!-- Risultato del sorteggio -->
         <h2 id="materia-result" class="hidden"></h2>
         <h2 id="result" class="hidden"></h2>
+
+        <!-- Pulsanti di conferma o rifiuto dell'argomento sorteggiato -->
+        <div id="action-buttons" class="hidden">
+            <button id="confirm-button" class="confirm">V</button>
+            <button id="reject-button" class="reject">X</button>
+        </div>
     </div>
 
     <script type="module">
@@ -72,11 +78,13 @@
         const sorteggiaButton = document.getElementById('sorteggia-button');
         const materiaResult = document.getElementById('materia-result');
         const result = document.getElementById('result');
+        const actionButtons = document.getElementById('action-buttons');
+        const confirmButton = document.getElementById('confirm-button');
+        const rejectButton = document.getElementById('reject-button');
 
         let materie = {};
         let sorteggiCounter = {};
 
-        // Mostra/nasconde la sezione aggiungi
         addButton.addEventListener('click', () => {
             addSection.classList.toggle('hidden');
         });
@@ -125,8 +133,6 @@
             argomentiList.innerHTML = '';
             argomenti.forEach((item, index) => {
                 const li = document.createElement('li');
-
-                // Mostra il contatore accanto all'argomento
                 const match = item.match(/^(\d+)\s+(.*)$/);
                 const testo = match ? match[2] : item;
                 const count = sorteggiCounter[testo] || 0;
@@ -194,6 +200,17 @@
             result.textContent = `Argomento: ${casuale.testo}\nNumero di volte uscito: ${sorteggiCounter[casuale.testo]}`;
             materiaResult.classList.remove('hidden');
             result.classList.remove('hidden');
+            actionButtons.classList.remove('hidden');
+        });
+
+        confirmButton.addEventListener('click', () => {
+            alert('Argomento confermato! Non verrà risorteggiato fino al prossimo ciclo completo.');
+            // Implement logic to mark the topic as "do not sort again until next full cycle"
+        });
+
+        rejectButton.addEventListener('click', () => {
+            alert('Argomento rifiutato! Può essere risorteggiato.');
+            // Implement logic to allow the topic to be resorted even if not all topics have been sorted yet
         });
 
         caricaMaterie();
