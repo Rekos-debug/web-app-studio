@@ -22,21 +22,25 @@ const materieSelect = document.getElementById('materie-select');
 const newArgomentoInput = document.getElementById('new-argomento');
 const confirmAddButton = document.getElementById('confirm-add');
 const argomentiList = document.getElementById('argomenti-list');
-const paginationContainer = document.getElementById('pagination');
 const sorteggiaButton = document.getElementById('sorteggia-button');
 const materiaResult = document.getElementById('materia-result');
 const result = document.getElementById('result');
 const confirmButton = document.getElementById('confirm-button');
 const rejectButton = document.getElementById('reject-button');
+const argomentiOkList = document.getElementById('argomenti-ok-list');
+const argomentiDaRifareList = document.getElementById('argomenti-da-rifare-list');
 
 let materie = {};
 let currentPage = 1;
 const itemsPerPage = 5;
 let sorteggiCounter = {};
+let argomentoCorrente = {};
 
 addButton.addEventListener('click', () => {
     addSection.classList.toggle('hidden');
 });
+
+document.addEventListener('DOMContentLoaded', caricaMaterie);
 
 function caricaMaterie() {
     const dbRef = ref(database);
@@ -194,20 +198,61 @@ function sorteggiaArgomento() {
 }
 
 confirmButton.addEventListener('click', () => {
-    aggiornaTabellaArgomenti(casuale.testo, true);
-    sorteggiaArgomento();  // Immediately sorts the next topic
+    aggiornaTabellaArgomenti(argomentoCorrente, true);
+    sorteggiaArgomento();
 });
 
 rejectButton.addEventListener('click', () => {
-    aggiornaTabellaArgomenti(casuale.testo, false);
-    sorteggiaArgomento();  // Immediately sorts the next topic
+    aggiornaTabellaArgomenti(argomentoCorrente, false);
+    sorteggiaArgomento();
 });
 
 function aggiornaTabellaArgomenti(argomento, isOk) {
-    const targetTable = isOk ? document.getElementById('argomenti-ok-list') : document.getElementById('argomenti-da-rifare-list');
-    let li = document.createElement('li');
-    li.textContent = argomento;
-    targetTable.appendChild(li);
+    const targetList = isOk ? argomentiOkList : argomentiDaRifareList;
+    let item = document.createElement('li');
+    item.textContent = argomento.testo;
+    targetList.appendChild(item);
 }
 
+function sorteggiaArgomento() {
+    const tuttiArgomenti = Object.values(materie).flat();
+    if (tuttiArgomenti.length === 0) {
+        alert("Nessun argomento disponibile!");
+        return;
+    }
+    const index = Math.floor(Math.random() * tuttiArgomenti.length);
+    argomentoCorrente = tuttiArgomenti[index];
+    mostraArgomento(argomentoCorrente);
+}
+
+function mostraArgomento(argomento) {
+    materiaResult.textContent = argomento.materia;
+    result.textContent = `Argomento: ${argomento.testo}\nNumero di volte uscito: ${sorteggiCounter[argomento.testo] || 0}`;
+    materiaResult.classList.remove('hidden');
+    result.classList.remove('hidden');
+}
+
+function caricaMaterie() {
+    const dbRef = ref(database, "materie");
+    get(dbRef).then((snapshot) => {
+        if (snapshot.exists()) {
+            materie = snapshot.val();
+            aggiornaMaterieSelect();
+        } else {
+            console.log("Nessuna materia trovata nel database.");
+        }
+    }).catch((error) => {
+        console.error("Errore nel caricamento delle materie: ", error);
+    });
+}
+
+function aggiornaMaterieSelect() {
+    materieSelect.innerHTML = '<option value="">Seleziona una materia</option>';
+    for (const materia in materie) {
+        const option = document.createElement('option');
+        option.value = materia;
+        option.textContent = materia;
+        materieSelect.appendChild(option);
+    }
+}
 caricaMaterie();
