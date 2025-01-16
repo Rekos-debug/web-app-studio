@@ -194,13 +194,11 @@ function sorteggiaArgomento() {
 }
 
 confirmButton.addEventListener('click', () => {
-    // Aggiungi l'argomento corrente agli "Argomenti Ok"
     aggiornaTabellaArgomenti(casuale.testo, true);
     sorteggiaArgomento();  // Immediately sorts the next topic
 });
 
 rejectButton.addEventListener('click', () => {
-    // Aggiungi l'argomento corrente agli "Argomenti da rifare"
     aggiornaTabellaArgomenti(casuale.testo, false);
     sorteggiaArgomento();  // Immediately sorts the next topic
 });
