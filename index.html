@@ -8,7 +8,6 @@
 </head>
 <body>
     <div id="app">
-        <!-- Contenitore messaggio benvenuto e tasto "+" -->
         <div id="welcome-message-container">
             <div id="add-button-container">
                 <button id="add-button">+</button>
@@ -17,7 +16,6 @@
             <h1 id="welcome-message" class="hidden">Benvenuta Alessia!</h1>
         </div>
 
-        <!-- Sezione nascosta per aggiungere materia e selezionare argomenti -->
         <div id="add-section" class="hidden">
             <div id="add-materia-container">
                 <input type="text" id="new-materia" placeholder="Inserisci una nuova materia">
@@ -35,29 +33,29 @@
             </div>
         </div>
 
-        <!-- Tasto "Sorteggia!" -->
         <button id="sorteggia-button">Sorteggia!</button>
-
-        <!-- Risultato del sorteggio -->
         <h2 id="materia-result" class="hidden"></h2>
         <h2 id="result" class="hidden"></h2>
-
-        <!-- Pulsanti di conferma o rifiuto dell'argomento sorteggiato -->
         <div id="action-buttons" class="hidden">
             <button id="confirm-button" class="confirm">V</button>
             <button id="reject-button" class="reject">X</button>
         </div>
+
+        <div id="tabella-argomenti">
+            <div>
+                <h3>Argomenti Ok</h3>
+                <ul id="argomenti-ok-list"></ul>
+            </div>
+            <div>
+                <h3>Argomenti da Rifare</h3>
+                <ul id="argomenti-da-rifare-list"></ul>
+            </div>
+        </div>
     </div>
-    <div id="tabella-argomenti">
-    <div>
-        <h3>Argomenti Ok</h3>
-        <ul id="argomenti-ok-list"></ul>
-    </div>
-    <div>
-        <h3>Argomenti da Rifare</h3>
-        <ul id="argomenti-da-rifare-list"></ul>
-    </div>
-</div>
+    <script src="script.js"></script>
+</body>
+</html>
+
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
